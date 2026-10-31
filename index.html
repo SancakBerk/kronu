@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kronu: ADHD Alarm & Reminders</title>
+<meta name="description" content="Kronu is a leave-on-time alarm that nudges you at 30, 15 and 5 minutes, rings on silent and keeps going until you tap I left.">
+<link rel="icon" href="assets/favicon.png">
+<link rel="alternate" hreflang="en" href="https://kronu.approds.com/"><link rel="alternate" hreflang="tr" href="https://kronu.approds.com/tr/">
+<style>@font-face{font-family:"Nunito";font-weight:400;font-display:swap;src:url("assets/nunito-400.woff") format("woff")}@font-face{font-family:"Nunito";font-weight:700;font-display:swap;src:url("assets/nunito-700.woff") format("woff")}@font-face{font-family:"Nunito";font-weight:800;font-display:swap;src:url("assets/nunito-800.woff") format("woff")}@font-face{font-family:"Nunito";font-weight:900;font-display:swap;src:url("assets/nunito-900.woff") format("woff")}
+:root{--bg:#FFF6EA;--surface:#FFFFFF;--surface2:#FDEBD8;--text:#2A1A3E;--text2:#6B5A78;--line:#EFD9C3;
+--accent:#D8274A;--press:#A5163A;--accent-soft:#FFE3DC;--accent-text:#B81E3F;--on-accent:#FFFFFF;
+--band:#2A1A3E;--band-card:#3A2B4A;--band-text:#FFF4E8;--band-text2:#CDBFD6;--good:#0B7A57;--bad:#C42B2B;
+--t1:#FF4D67;--t2:#FFC233;--t3:#2FCF9B;--t4:#6CCBFF;--t5:#B583FF;--t6:#FF8A3D;--tile-ink:#2A1A3E;
+--sans:"Nunito",ui-rounded,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1B1226;--surface:#2A1E38;--surface2:#3A2B4A;--text:#FFF4E8;--text2:#CDBFD6;--line:#4A3A5C;
+--accent:#FF6B81;--press:#C73F5B;--accent-soft:#4A2436;--accent-text:#FF9DAA;--on-accent:#2A1020;
+--band:#22172F;--band-card:#3A2B4A;--good:#4FDDAE;--bad:#FF7A7A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1B1226;--surface:#2A1E38;--surface2:#3A2B4A;--text:#FFF4E8;--text2:#CDBFD6;--line:#4A3A5C;
+--accent:#FF6B81;--press:#C73F5B;--accent-soft:#4A2436;--accent-text:#FF9DAA;--on-accent:#2A1020;
+--band:#22172F;--band-card:#3A2B4A;--good:#4FDDAE;--bad:#FF7A7A;color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);font:400 1.0625rem/1.55 var(--sans)}
+a{color:var(--accent-text);font-weight:700}
+a:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3{text-wrap:balance}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:18px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.25rem;color:var(--text);text-decoration:none}
+.brand img{width:34px;height:34px;border-radius:9px}
+.lang select{appearance:none;-webkit-appearance:none;border:0;background:var(--surface2);color:var(--text);font:700 .875rem var(--sans);padding:8px 30px 8px 12px;border-radius:12px;cursor:pointer;
+background-image:linear-gradient(45deg,transparent 50%,var(--text2) 50%),linear-gradient(135deg,var(--text2) 50%,transparent 50%);background-position:calc(100% - 15px) 52%,calc(100% - 10px) 52%;background-size:5px 5px;background-repeat:no-repeat}
+.hero{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:32px;align-items:center;padding-block:32px 64px}
+.hero h1{font-size:clamp(2.5rem,6.6vw,4.25rem);font-weight:900;line-height:1.02;letter-spacing:-.025em;margin:0 0 18px}
+.hero .lead{font-size:1.1875rem;color:var(--text2);margin:0 0 26px;max-width:32em}
+.eyebrow{font-weight:800;color:var(--accent-text);margin:0 0 10px}
+.store{display:inline-block;background:var(--accent);color:var(--on-accent);padding:12px 24px 13px;border-radius:18px;font-weight:900;font-size:1.125rem;line-height:1.2;text-decoration:none;box-shadow:0 5px 0 var(--press)}
+.store small{display:block;font-weight:700;font-size:.8125rem;opacity:.9}
+.hero-art{position:relative;justify-self:center;width:min(340px,100%);padding-top:34px}
+.hero-art .kr{display:block;width:100%;height:auto;transform-origin:50% 62%}
+.bubble{position:absolute;top:0;left:-6%;background:var(--surface);color:var(--text);font-weight:800;padding:10px 16px;border-radius:18px 18px 18px 4px;box-shadow:0 8px 22px rgba(42,26,62,.14)}
+.band{background:var(--band);color:var(--band-text)}
+.band .wrap{padding-block:56px 52px}
+.band h2{font-size:clamp(1.75rem,4.4vw,2.5rem);font-weight:900;line-height:1.1;margin:0 0 10px;letter-spacing:-.015em}
+.band .sub{color:var(--band-text2);font-size:1.125rem;margin:0 0 34px;max-width:36em}
+.ladder{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.ladder li{display:grid;grid-template-rows:auto auto 1fr;gap:10px;justify-items:center;text-align:center;min-width:0}
+.ladder .kr{width:min(112px,100%);height:auto}
+.ladder b{font-weight:900;font-size:1.25rem;line-height:1.2;font-variant-numeric:tabular-nums}
+.ladder span{background:var(--band-card);border-radius:16px;padding:10px 12px;font-weight:700;font-size:.9375rem;line-height:1.3;width:100%;text-wrap:balance}
+.band .aside{color:var(--band-text2);margin:26px 0 0}
+section.block{padding-block:56px 0}
+section.block h2{font-size:clamp(1.625rem,4vw,2.25rem);font-weight:900;line-height:1.12;letter-spacing:-.015em;margin:0 0 26px}
+.feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 26px}
+.feat{min-width:0}
+.tile{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;margin-bottom:12px;color:var(--tile-ink)}
+.tile svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.feat h3{font-size:1.125rem;font-weight:800;line-height:1.25;margin:0 0 4px}
+.feat p{margin:0;color:var(--text2);font-size:1rem}
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.plan{border-radius:22px;padding:22px 24px;background:var(--surface);min-width:0}
+.plan.pro{background:var(--accent-soft);box-shadow:inset 0 0 0 2px var(--accent)}
+.plan h3{font-size:1.25rem;font-weight:900;margin:0 0 10px}
+.ticks{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.ticks li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;align-items:start}
+.ticks svg{width:22px;height:22px;margin-top:2px;fill:none;stroke:var(--good);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.ticks.no svg{stroke:var(--bad)}
+.after{color:var(--text2);margin:16px 0 0}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}
+.two>div{min-width:0}
+.two h3{font-size:1.125rem;font-weight:800;margin:0 0 10px}
+details{background:var(--surface);border-radius:16px;padding:14px 18px}
+details+details{margin-top:10px}
+summary{cursor:pointer;font-weight:800}
+details p{margin:8px 0 0;color:var(--text2)}
+.doc{max-width:760px;padding-block:20px 48px}
+.doc h1{font-size:clamp(1.875rem,4.4vw,2.5rem);font-weight:900;line-height:1.12;margin:0 0 6px}
+.doc .meta{color:var(--text2);font-size:.875rem;margin:0 0 24px}
+.doc h2{font-size:1.1875rem;font-weight:800;margin:28px 0 6px}
+.doc p{margin:0 0 10px}
+.contact{background:var(--surface);border-radius:18px;padding:18px;margin:16px 0}
+.contact a{font-size:1.0625rem;overflow-wrap:anywhere}
+.tablewrap{overflow-x:auto;margin:16px 0}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:start;padding:10px 12px 10px 0;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:800;font-size:.875rem;color:var(--text2)}
+footer{margin-top:64px;border-top:1px solid var(--line);padding-block:24px 40px;color:var(--text2);font-size:.875rem}
+footer nav{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:10px}
+@media (max-width:820px){.feats{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ladder{grid-template-columns:1fr;gap:12px}
+.ladder li{grid-template-columns:64px 76px minmax(0,1fr);grid-template-rows:auto;align-items:center;justify-items:start;text-align:start}
+.ladder .kr{width:64px}.ladder b{font-size:1.0625rem}}
+@media (max-width:640px){.hero{grid-template-columns:1fr;padding-block:12px 44px}.hero-art{order:-1;width:210px;padding-top:30px}.bubble{left:-22%}
+.feats,.plans,.two{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.hero-art .kr{animation:ring .5s ease-in-out .5s 3}
+@keyframes ring{0%,100%{transform:rotate(0)}25%{transform:rotate(-4deg)}75%{transform:rotate(4deg)}}}
+.kb .bell{fill:#FFC233}.kb .foot{stroke:#D8274A;stroke-width:14;stroke-linecap:round;fill:none}
+.kb .ring{fill:#FF4D67}.kb .trk{fill:#2A1A3E}.kb .plate{fill:#FFF6EA}
+.kb .wd{fill:#2FCF9B}.kb.s2 .wd{fill:#FFC233}.kb.s3 .wd{fill:#FF8A3D}.kb .dot{fill:#FFF6EA}
+.kb .e,.kb .ef{fill:#2A1A3E}.kb .ew{fill:#FFFFFF;stroke:#2A1A3E;stroke-width:3}.kb .hl{fill:#FFFFFF}
+.kb .m{fill:none;stroke:#2A1A3E;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.kb .ch{fill:#FFB3BE}.kb .sw{fill:#6CCBFF}
+</style>
+</head>
+<body>
+<header class="top wrap"><a class="brand" href="index.html"><img src="assets/icon.png" alt="" width="34" height="34">Kronu</a><label class="lang"><select id="lang" aria-label="Language"><option lang="en" value="index.html" selected>English</option><option lang="tr" value="tr/index.html">Türkçe</option></select></label></header><main>
+<div class="wrap">
+<section class="hero">
+<div>
+<p class="eyebrow">The alarm that talks back when time slips away</p>
+<h1>I'll watch the clock. You just leave.</h1>
+<p class="lead">Kronu is a leave-on-time alarm for people who lose track of time, including people with ADHD. It nudges you at 30, 15 and 5 minutes, rings even on silent, and keeps going until you tap “I left”.</p>
+<span class="store">Coming soon<small>on the App Store for iPhone</small></span>
+</div>
+<div class="hero-art"><div class="bubble" aria-hidden="true">Still home? 👀</div><svg class="kr" viewBox="0 0 240 240" role="img" aria-label="Kronu, a round alarm clock with a laughing face"><g class="kb s1"><path class="foot" d="M62 214l-16 18M178 214l16 18"/><path class="bell" transform="rotate(-34 62 44)" d="M22 56a40 40 0 0 1 80 0z"/><path class="bell" transform="rotate(34 178 44)" d="M138 56a40 40 0 0 1 80 0z"/><circle class="ring" cx="120" cy="132" r="100"/><circle class="trk" cx="120" cy="132" r="84"/><circle class="wd" cx="120" cy="132" r="84"/><circle class="plate" cx="120" cy="132" r="54"/><path class="m" d="M88 126q12-14 24 0M128 126q12-14 24 0"/><path class="ef" d="M98 140h44a22 22 0 0 1-44 0z"/><circle class="ch" cx="82" cy="140" r="7"/><circle class="ch" cx="158" cy="140" r="7"/><circle class="dot" cx="199.7" cy="178.0" r="4"/><circle class="dot" cx="40.3" cy="178.0" r="4"/><circle class="dot" cx="60.9" cy="61.5" r="4"/></g></svg></div>
+</section>
+</div>
+<section class="band" aria-labelledby="l-h"><div class="wrap">
+<h2 id="l-h">One exit, five messages</h2>
+<p class="sub">Tell Kronu when you need to leave. It counts back from there and gets more insistent as time runs out.</p>
+<ol class="ladder"><li><svg class="kr" viewBox="0 0 240 240" aria-hidden="true"><g class="kb s1"><path class="foot" d="M62 214l-16 18M178 214l16 18"/><path class="bell" transform="rotate(-34 62 44)" d="M22 56a40 40 0 0 1 80 0z"/><path class="bell" transform="rotate(34 178 44)" d="M138 56a40 40 0 0 1 80 0z"/><circle class="ring" cx="120" cy="132" r="100"/><circle class="trk" cx="120" cy="132" r="84"/><path class="wd" d="M120 132L192.75 174.00A84 84 0 1 1 120 48Z"/><circle class="plate" cx="120" cy="132" r="54"/><circle class="e" cx="100" cy="124" r="8"/><circle class="e" cx="140" cy="124" r="8"/><circle class="hl" cx="103" cy="121" r="2.5"/><circle class="hl" cx="143" cy="121" r="2.5"/><path class="m" d="M105 146q15 14 30 0"/><circle class="ch" cx="84" cy="142" r="7"/><circle class="ch" cx="156" cy="142" r="7"/><circle class="dot" cx="199.7" cy="178.0" r="4"/><circle class="dot" cx="40.3" cy="178.0" r="4"/><circle class="dot" cx="60.9" cy="61.5" r="4"/></g></svg><b>30 min</b><span>Start getting ready 👟</span></li><li><svg class="kr" viewBox="0 0 240 240" aria-hidden="true"><g class="kb s2"><path class="foot" d="M62 214l-16 18M178 214l16 18"/><path class="bell" transform="rotate(-34 62 44)" d="M22 56a40 40 0 0 1 80 0z"/><path class="bell" transform="rotate(34 178 44)" d="M138 56a40 40 0 0 1 80 0z"/><circle class="ring" cx="120" cy="132" r="100"/><circle class="trk" cx="120" cy="132" r="84"/><path class="wd" d="M120 132L47.25 174.00A84 84 0 0 1 120 48Z"/><circle class="plate" cx="120" cy="132" r="54"/><circle class="e" cx="100" cy="124" r="9"/><circle class="e" cx="140" cy="124" r="9"/><circle class="hl" cx="103" cy="121" r="3"/><circle class="hl" cx="143" cy="121" r="3"/><path class="m" d="M88 106l18 3M152 106l-18 3"/><ellipse class="ef" cx="120" cy="152" rx="7" ry="8"/><circle class="dot" cx="199.7" cy="178.0" r="4"/><circle class="dot" cx="40.3" cy="178.0" r="4"/><circle class="dot" cx="60.9" cy="61.5" r="4"/></g></svg><b>15 min</b><span>Stop whining and get moving 💪</span></li><li><svg class="kr" viewBox="0 0 240 240" aria-hidden="true"><g class="kb s3"><path class="foot" d="M62 214l-16 18M178 214l16 18"/><path class="bell" transform="rotate(-34 62 44)" d="M22 56a40 40 0 0 1 80 0z"/><path class="bell" transform="rotate(34 178 44)" d="M138 56a40 40 0 0 1 80 0z"/><circle class="ring" cx="120" cy="132" r="100"/><circle class="trk" cx="120" cy="132" r="84"/><path class="wd" d="M120 132L66.01 67.65A84 84 0 0 1 120 48Z"/><circle class="plate" cx="120" cy="132" r="54"/><circle class="ew" cx="100" cy="124" r="14"/><circle class="ew" cx="140" cy="124" r="14"/><circle class="e" cx="100" cy="124" r="5"/><circle class="e" cx="140" cy="124" r="5"/><path class="m" d="M102 156q6-8 12 0t12 0t12 0"/><path class="sw" d="M172 92c5 7 8 11 8 15a8 8 0 0 1-16 0c0-4 3-8 8-15z"/><circle class="dot" cx="199.7" cy="178.0" r="4"/><circle class="dot" cx="40.3" cy="178.0" r="4"/><circle class="dot" cx="60.9" cy="61.5" r="4"/></g></svg><b>5 min</b><span>Where are your shoes? 👟</span></li><li><svg class="kr" viewBox="0 0 240 240" aria-hidden="true"><g class="kb s3"><path class="foot" d="M62 214l-16 18M178 214l16 18"/><path class="bell" transform="rotate(-34 62 44)" d="M22 56a40 40 0 0 1 80 0z"/><path class="bell" transform="rotate(34 178 44)" d="M138 56a40 40 0 0 1 80 0z"/><circle class="ring" cx="120" cy="132" r="100"/><circle class="trk" cx="120" cy="132" r="84"/><circle class="plate" cx="120" cy="132" r="54"/><circle class="e" cx="100" cy="124" r="9"/><circle class="e" cx="140" cy="124" r="9"/><circle class="hl" cx="103" cy="121" r="3"/><circle class="hl" cx="143" cy="121" r="3"/><path class="m" d="M88 106l18 3M152 106l-18 3"/><ellipse class="ef" cx="120" cy="152" rx="7" ry="8"/><circle class="dot" cx="199.7" cy="178.0" r="4"/><circle class="dot" cx="40.3" cy="178.0" r="4"/><circle class="dot" cx="60.9" cy="61.5" r="4"/></g></svg><b>Leave time</b><span>Time to go! Go go go 🏃</span></li><li><svg class="kr" viewBox="0 0 240 240" aria-hidden="true"><g class="kb s3"><path class="foot" d="M62 214l-16 18M178 214l16 18"/><path class="bell" transform="rotate(-34 62 44)" d="M22 56a40 40 0 0 1 80 0z"/><path class="bell" transform="rotate(34 178 44)" d="M138 56a40 40 0 0 1 80 0z"/><circle class="ring" cx="120" cy="132" r="100"/><circle class="trk" cx="120" cy="132" r="84"/><circle class="plate" cx="120" cy="132" r="54"/><path class="e" d="M88 122h24a12 12 0 0 1-24 0z"/><path class="e" d="M128 122h24a12 12 0 0 1-24 0z"/><path class="m" d="M86 106l24 10M154 106l-24 10"/><path class="m" d="M106 154h28"/><circle class="dot" cx="199.7" cy="178.0" r="4"/><circle class="dot" cx="40.3" cy="178.0" r="4"/><circle class="dot" cx="60.9" cy="61.5" r="4"/></g></svg><b>+3 min</b><span>3 min late. Still home? 👀</span></li></ol>
+<p class="aside">Prefer it softer? Switch Kronu's tone to Gentle in Settings.</p>
+</div></section>
+<div class="wrap">
+<section class="block" aria-labelledby="f-h"><h2 id="f-h">What else it does</h2><div class="feats"><article class="feat"><div class="tile" style="background:var(--t1)" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></div><h3>Your calendar sets your alarms</h3><p>Kronu sees the event, works out the trip and tells you when to leave. If the event moves, the alarm moves with it.</p></article><article class="feat"><div class="tile" style="background:var(--t2)" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg></div><h3>A real alarm</h3><p>It rings through Silent mode and Focus. The system rings it, so the app does not need to stay open.</p></article><article class="feat"><div class="tile" style="background:var(--t3)" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M3.5 21h17"/><path d="M14.5 12v.5"/></svg></div><h3>It stays on you</h3><p>Stop turns off the sound. The nudges keep coming until you tap “I left”.</p></article><article class="feat"><div class="tile" style="background:var(--t4)" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6h.5M4 12h.5M4 18h.5"/></svg></div><h3>Routines, step by step</h3><p>Split your morning into timed steps. Pick when you need to finish and Kronu works out when to start.</p></article><article class="feat"><div class="tile" style="background:var(--t5)" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10 6h4M12 11v3l2 1.5"/></svg></div><h3>Always in sight</h3><p>Time left on the Lock Screen and in the Dynamic Island, plus Home Screen widgets and a Control Center button.</p></article><article class="feat"><div class="tile" style="background:var(--t6)" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3c1 3.5 5.5 5.5 5.5 11a5.5 5.5 0 0 1-11 0c0-2 1-3.5 2-4.5.3 1.5 1 2 1.8 2.5C9.8 9 10.5 6 12 3z"/></svg></div><h3>Exits worth celebrating</h3><p>Streaks, badges and confetti. A late exit still counts.</p></article></div></section>
+<section class="block" aria-labelledby="p-h"><h2 id="p-h">What's free and what's Pro</h2>
+<div class="plans"><div class="plan"><h3>Free</h3><ul class="ticks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Unlimited quick countdowns with the final alarm</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>1 saved repeating alarm</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>1 routine</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Lock Screen countdown, widgets and shortcuts</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Streaks, badges and confetti</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Test alarm and reliability check</span></li></ul></div><div class="plan pro"><h3>Pro</h3><ul class="ticks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Nudges at 30, 15 and 5 minutes</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Keeps going until you tap “I left”</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Unlimited alarms and routines</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Calendar alarms with travel time</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>5 alarm sounds, themes and app icons</span></li></ul></div></div>
+<p class="after">Your first alarm runs with everything on. Pro is a yearly plan with 3 days free, or a one-time lifetime purchase. Prices are shown in the app.</p></section>
+<section class="block" aria-labelledby="h-h"><h2 id="h-h">What Kronu promises, and where it stops</h2>
+<div class="two"><div><h3>Promises</h3><ul class="ticks"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>The final alarm rings on every plan.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>No account. No ads.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Your purchase stays, even after a long break.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>Your alarms and routines stay on your phone.</span></li></ul></div><div><h3>Limits</h3><ul class="ticks no"><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg><span>The alarm cannot ring if the phone is off.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg><span>After you stop the sound the alarm does not ring again. It sends notifications instead.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg><span>If notifications are off, nudges do not arrive.</span></li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></svg><span>Kronu does not diagnose or treat anything.</span></li></ul></div></div></section>
+<section class="block" aria-labelledby="q-h"><h2 id="q-h">Questions</h2><details><summary>Is Kronu a medical app?</summary><p>No. Kronu is a timing tool. It does not diagnose or treat ADHD or any other condition, and it does not replace a doctor's advice.</p></details><details><summary>Will it ring on silent?</summary><p>Yes. Kronu uses Apple's alarm system, so it rings in Silent mode and during Focus. Try it once in Settings, under Reliability, with Play test alarm.</p></details><details><summary>Do I need an account?</summary><p>No. There is no sign-up. Pro is tied to your Apple ID.</p></details><details><summary>Which phones does it work on?</summary><p>iPhones on iOS 26 or later.</p></details><details><summary>Can I make it less cheeky?</summary><p>Yes. In Settings, set Kronu's tone to Gentle and every message softens.</p></details></section>
+</div>
+</main><footer><div class="wrap"><nav aria-label="Legal"><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="support.html">Support</a><a href="kvkk.html">KVKK</a><a href="licenses.html">Licenses</a></nav><div>© 2026 Berk Sancak · approds</div></div></footer><script>
+(function(){
+  var s=document.getElementById('lang');
+  if(s)s.addEventListener('change',function(){try{localStorage.setItem('lang',s.options[s.selectedIndex].lang)}catch(e){}location.href=s.value});
+})();
+</script>
+</body>
+</html>
